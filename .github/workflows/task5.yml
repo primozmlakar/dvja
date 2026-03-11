@@ -22,6 +22,7 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           format: cyclonedx-json
+          output-file: dvja-sbom.spdx.json
           artifact-name: dvja-sbom.spdx.json
 
       - name: Install Grype tool
