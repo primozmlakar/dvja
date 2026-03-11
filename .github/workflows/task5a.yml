@@ -1,0 +1,60 @@
+name: SBOM generation - Task 5a
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  create-sbom:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout of repo
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 8
+          cache: maven
+
+      - name: Build Maven project
+        run: mvn -B clean package -DskipTests
+
+      - name: SBOM Generation
+        uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: cyclonedx-json
+          output-file: dvja-sbom.cdx.json
+          artifact-name: dvja-sbom
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: dvja-sbom
+          path: dvja-sbom.cdx.json
+
+
+  sca-analysis:
+    runs-on: ubuntu-latest
+    needs: create-sbom
+
+    steps:
+      - name: Download SBOM
+        uses: actions/download-artifact@v4
+        with:
+          name: dvja-sbom
+
+      - name: Install Grype tool
+        run: curl -sSfL https://get.anchore.io/grype | sudo sh -s -- -b /usr/local/bin
+
+      - name: Perform SCA analysis with Grype tool
+        run: grype sbom:dvja-sbom.cdx.json -o json > dvja-sbom.sca.json
+
+      - name: Upload SCA report
+        uses: actions/upload-artifact@v4
+        with:
+          name: sca-report
+          path: dvja-sbom.sca.json
