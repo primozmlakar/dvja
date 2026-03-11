@@ -1,4 +1,4 @@
-name: SBOM generation
+name: SBOM generation - Task 4
 on:
   workflow_dispatch
 jobs:
@@ -22,10 +22,10 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           format: cyclonedx-json
-          artifact-name: dvja-sbom.json
+          artifact-name: dvja-sbom.spdx.json
 
       - name: Upload SBOM
         uses: actions/upload-artifact@v7.0.0
         with:
           name: sbom-report
-          path: dvja-sbom.json
+          path: dvja-sbom.spdx.json
