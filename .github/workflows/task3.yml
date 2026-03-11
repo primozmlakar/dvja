@@ -17,3 +17,10 @@ jobs:
 
       - name: Build Maven project
         run: mvn -B clean package -DskipTest
+
+      - name: Install Syft
+        run: curl -sSfL https://get.anchore.io/syft | sudo sh -s -- -b /usr/local/bin
+
+      - name: Building SBOM
+        run: syft dir:. -o cyclonedx-json > dvja-sbom.json
+        
