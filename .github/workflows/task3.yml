@@ -23,4 +23,9 @@ jobs:
 
       - name: Building SBOM
         run: syft dir:. -o cyclonedx-json > dvja-sbom.json
-        
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v7.0.0
+        with:
+          name: sbom-report
+          path: dvja-sbom.json
