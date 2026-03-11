@@ -28,4 +28,10 @@ jobs:
         run: curl -sSfL https://get.anchore.io/grype | sudo sh -s -- -b /usr/local/bin
 
       - name: Perform SCA analysis with Grype tool
-        run: grype sbom:dvja-sbom.spdx.json
+        run: cat ./dvja-sbom.spdx.json | grype > dvja-sbom.sca
+
+      - name: Upload SCA report
+        uses: actions/upload-artifact@v7.0.0
+        with:
+          name: sbom-report
+          path: dvja-sbom.sca
