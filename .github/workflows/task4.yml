@@ -23,9 +23,3 @@ jobs:
         with:
           format: cyclonedx-json
           artifact-name: dvja-sbom.spdx.json
-
-      - name: Upload SBOM
-        uses: actions/upload-artifact@v7.0.0
-        with:
-          name: sbom-report
-          path: dvja-sbom.spdx.json
