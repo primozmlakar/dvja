@@ -38,12 +38,16 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dvja-sbom
+          path: downloaded-sbom
+
+      - name: Debug downloaded files
+        run: find . -maxdepth 3 -type f | sort
 
       - name: Install Grype tool
         run: curl -sSfL https://get.anchore.io/grype | sudo sh -s -- -b /usr/local/bin
 
       - name: Perform SCA analysis with Grype tool
-        run: grype sbom:dvja-sbom.cdx.json -o json > dvja-sbom.sca.json
+        run: grype sbom:downloaded-sbom/dvja-sbom.cdx.json -o json > dvja-sbom.sca.json
 
       - name: Upload SCA report
         uses: actions/upload-artifact@v4
