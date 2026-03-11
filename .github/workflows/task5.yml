@@ -24,5 +24,8 @@ jobs:
           format: cyclonedx-json
           artifact-name: dvja-sbom.spdx.json
 
-      - name: Perform SCA analysis with Grype tool
+      - name: Install Grype tool
         run: curl -sSfL https://get.anchore.io/grype | sudo sh -s -- -b /usr/local/bin
+
+      - name: Perform SCA analysis with Grype tool
+        run: grype sbom:dvja-sbom.spdx.json
