@@ -1,10 +1,9 @@
-name: SBOM generation - Task 5a
+name: SBOM generation - Task 5
 
 on:
   workflow_dispatch:
 
 jobs:
-
   create-sbom:
     runs-on: ubuntu-latest
 
@@ -29,13 +28,6 @@ jobs:
           format: cyclonedx-json
           output-file: dvja-sbom.cdx.json
           artifact-name: dvja-sbom
-
-      - name: Upload SBOM
-        uses: actions/upload-artifact@v4
-        with:
-          name: dvja-sbom
-          path: dvja-sbom.cdx.json
-
 
   sca-analysis:
     runs-on: ubuntu-latest
