@@ -1,0 +1,10 @@
+name: SBOM generation
+on:
+  workflow_dispatch
+jobs:
+  create-sbom:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout of repo
+        uses: actions/checkout@v6.0.2
+        
